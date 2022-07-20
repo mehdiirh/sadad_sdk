@@ -55,11 +55,14 @@ class ResponseBase(DataClassJsonMixin):
 
     @classmethod
     def _from_dict(cls: Type[A], kvs: Json, *, infer_missing=False) -> A:
+        letter_case = cls.dataclass_json_config.get('letter_case')  # get LetterCase if it exists
+
         for field in dataclasses.fields(cls):
             if issubclass(field.type, datetime):
-                value = kvs.get(field.name)
+                field_name = letter_case(field.name) if callable(letter_case) else field.name
+                value = kvs.get(field_name)
                 if value and (not isinstance(value, datetime)):
-                    kvs[field.name] = datetime.strptime(value, RESPONSE_DATETIME_FORMAT)
+                    kvs[field_name] = datetime.strptime(value, RESPONSE_DATETIME_FORMAT)
 
         _data = super().from_dict(kvs, infer_missing=infer_missing)
         return _data
