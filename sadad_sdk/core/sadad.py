@@ -44,7 +44,6 @@ class SadadBase:
         headers = REQUEST_HEADERS.copy()
         headers["Sign-Data"] = self._create_sign_data(values)
         headers["Sign"] = self._create_sign(values)
-        print(headers)
         return headers
 
     def _send(self, uri: str = "", params: ParamsBase = None):
