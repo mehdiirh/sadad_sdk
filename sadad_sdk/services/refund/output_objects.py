@@ -8,7 +8,14 @@ from dataclasses import dataclass, field
 
 
 @dataclass
-class OnlyRefundIdResponse(ResponseBase):
+class BaseRefundResponse(ResponseBase):
+
+    status: str
+    response_message: str
+
+
+@dataclass
+class OnlyRefundIdResponse(BaseRefundResponse):
     """
     Responses that only have refund_id ( beside status codes and messages ) as
     response data, will inherit from this class
@@ -62,7 +69,7 @@ class ListRefundHistoryData:
 @recover_methods
 @dataclass_json(letter_case=LetterCase.PASCAL, undefined=Undefined.EXCLUDE)
 @dataclass
-class RefundDetails(ResponseBase):
+class RefundDetails(BaseRefundResponse):
 
     refund_id: int
     retrieval_ref_no: str
@@ -89,14 +96,14 @@ class RefundDetails(ResponseBase):
 
 @dataclass_json(letter_case=LetterCase.PASCAL, undefined=Undefined.EXCLUDE)
 @dataclass
-class ListRefundResponse(ResponseBase):
+class ListRefundResponse(BaseRefundResponse):
 
     refunds: list[ListRefundData] = field(default_factory=list)
 
 
 @dataclass_json(letter_case=LetterCase.PASCAL, undefined=Undefined.EXCLUDE)
 @dataclass
-class HistoryRefundResponse(ResponseBase):
+class HistoryRefundResponse(BaseRefundResponse):
 
     refund_histories: list[ListRefundHistoryData] = field(default_factory=list)
 
@@ -104,7 +111,7 @@ class HistoryRefundResponse(ResponseBase):
 @recover_methods
 @dataclass_json(letter_case=LetterCase.PASCAL, undefined=Undefined.EXCLUDE)
 @dataclass
-class InquiryRefundResponse(ResponseBase):
+class InquiryRefundResponse(BaseRefundResponse):
 
     refund_id: int
     retrieval_ref_no: str

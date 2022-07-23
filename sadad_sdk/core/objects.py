@@ -63,6 +63,3 @@ class ResponseBase(DataClassJsonMixin):
 
         _data = super().from_dict(kvs, infer_missing=infer_missing)
         return _data
-
-    status: str
-    response_message: str
