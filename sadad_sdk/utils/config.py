@@ -1,4 +1,4 @@
-BASE_URL = "https://sadad.shaparak.ir/api/v1"
+BASE_URL = "https://sadad.shaparak.ir/api"
 
 REQUEST_HEADERS = {
     "Content-Type": "application/json",
