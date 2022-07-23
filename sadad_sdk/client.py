@@ -1,4 +1,4 @@
-from sadad_sdk.services import RefundService
+from sadad_sdk.services import RefundService, PaymentService
 
 
 class Sadad:
@@ -20,7 +20,16 @@ class Sadad:
             raise AttributeError("RSA key is required for refund service")
         if not self.__merchant_id or not self.__terminal_id:
             raise AttributeError(
-                "merchant_id and rsa_key are required for refund service"
+                "merchant_id and terminal_id are required for refund service"
             )
 
         return RefundService(self.__vpg_key, self.__rsa_key_location)
+
+    @property
+    def payment(self) -> PaymentService:
+        if not self.__merchant_id or not self.__terminal_id:
+            raise AttributeError(
+                "merchant_id and terminal_id are required for payment service"
+            )
+
+        return PaymentService(self.__vpg_key, self.__merchant_id, self.__terminal_id)
