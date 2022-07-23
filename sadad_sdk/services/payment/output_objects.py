@@ -3,8 +3,7 @@ from sadad_sdk.utils.decorators import recover_methods
 
 from dataclasses_json import dataclass_json, LetterCase, Undefined
 
-from datetime import datetime
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass
@@ -14,11 +13,17 @@ class BasePaymentResponse(ResponseBase):
     description: str
 
 
+@recover_methods
+@dataclass_json(letter_case=LetterCase.PASCAL, undefined=Undefined.EXCLUDE)
+@dataclass
 class RequestPaymentResponse(BasePaymentResponse):
 
     token: str
 
 
+@recover_methods
+@dataclass_json(letter_case=LetterCase.PASCAL, undefined=Undefined.EXCLUDE)
+@dataclass
 class VerifyPaymentResponse(BasePaymentResponse):
 
     amount: int
