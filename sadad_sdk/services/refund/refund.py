@@ -7,7 +7,7 @@ from typing import Optional, Literal
 
 class RefundService(SadadBase):
 
-    uri_path = "/refund"
+    uri_path = "v1/refund"
 
     def register(
         self,
