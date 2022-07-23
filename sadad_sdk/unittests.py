@@ -7,20 +7,22 @@ from sadad_sdk.core.objects import ParamsBase, ResponseBase
 from sadad_sdk.utils.decorators import recover_methods
 from sadad_sdk.utils.config import REQUEST_DATE_FORMAT, RESPONSE_DATETIME_FORMAT
 
+from sadad_sdk.services.refund.output_objects import BaseRefundResponse
 
-class TestBaseResponseObject(TestCase):
 
-    def test_base_response_status_and_response_message_attrs(self):
+class TestBaseRefundResponseObject(TestCase):
 
-        # test BaseResponse requires "status" and "response_message" by default
-        self.assertRaises(TypeError, ResponseBase, status=200)
-        self.assertRaises(TypeError, ResponseBase, response_message="message")
+    def test_base_refund_response_status_and_response_message_attrs(self):
 
-    def test_base_response_initializing_and_functionality(self):
+        # test BaseRefundResponse requires "status" and "response_message" by default
+        self.assertRaises(TypeError, BaseRefundResponse, status=200)
+        self.assertRaises(TypeError, BaseRefundResponse, response_message="message")
+
+    def test_base_refund_response_initializing_and_functionality(self):
         try:
-            instance = ResponseBase(status=200, response_message="message")
+            instance = BaseRefundResponse(status=200, response_message="message")
         except Exception as e:
-            self.fail(f"ResponseBase() raised {e} unexpectedly")
+            self.fail(f"BaseRefundResponse() raised {e} unexpectedly")
 
         # test if response is valid if status and response message is passed
         self.assertIsInstance(instance, ResponseBase)
@@ -33,17 +35,17 @@ class TestBaseResponseObject(TestCase):
         self.assertTrue(hasattr(instance, "_from_dict"))
 
         # these should not be equal before recovering methods
-        self.assertNotEqual(ResponseBase._from_dict, ResponseBase.from_dict)
+        self.assertNotEqual(BaseRefundResponse._from_dict, BaseRefundResponse.from_dict)
 
         # test recover methods decorator
-        recover_methods(ResponseBase)
-        self.assertEqual(ResponseBase._from_dict, ResponseBase.from_dict)
+        recover_methods(BaseRefundResponse)
+        self.assertEqual(BaseRefundResponse._from_dict, BaseRefundResponse.from_dict)
 
-    def test_base_response_datetime_convertor(self):
+    def test_base_refund_response_datetime_convertor(self):
         @recover_methods
         @dataclass_json(letter_case=LetterCase.PASCAL)
         @dataclass
-        class ResponseBaseConverted(ResponseBase):
+        class BaseRefundResponseConverted(BaseRefundResponse):
             from_date: datetime
 
         time = datetime.now()
@@ -51,7 +53,7 @@ class TestBaseResponseObject(TestCase):
 
         data = {"Status": 200, "ResponseMessage": "message", "FromDate": str_time}
 
-        instance = ResponseBaseConverted.from_dict(data)
+        instance = BaseRefundResponseConverted.from_dict(data)
 
         self.assertIsInstance(instance.from_date, datetime)
         self.assertEqual(
