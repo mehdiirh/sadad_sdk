@@ -65,8 +65,10 @@ class SadadBase:
 
     def _get_headers(self, values: str):
         headers = REQUEST_HEADERS.copy()
-        headers["Sign-Data"] = self._create_sign_data(values)
-        headers["Sign"] = self._create_sign(values)
+        if self._vpg_key:
+            headers["Sign-Data"] = self._create_sign_data(values)
+        if self._rsa_key:
+            headers["Sign"] = self._create_sign(values)
         return headers
 
     def _send(
