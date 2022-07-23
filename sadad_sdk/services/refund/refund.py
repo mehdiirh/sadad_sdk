@@ -44,7 +44,7 @@ class RefundService(SadadBase):
         )
 
         response = self._send("/Register", params)
-        return out.RegisterRefundResponse.from_json(response)
+        return out.RegisterRefundResponse.from_dict(response)
 
     def refunds_list(
         self,
@@ -93,7 +93,7 @@ class RefundService(SadadBase):
         )
 
         response = self._send("/Register", params)
-        return out.ListRefundResponse.from_json(response)
+        return out.ListRefundResponse.from_dict(response)
 
     def register_with_new_card(
         self, refund_id: int, card_no: str
@@ -113,7 +113,7 @@ class RefundService(SadadBase):
             refund_id=refund_id, card_no=card_no
         )
         response = self._send("/history", params)
-        return out.RegisterWithNewCardRefundResponse.from_json(response)
+        return out.RegisterWithNewCardRefundResponse.from_dict(response)
 
     def confirm(self, refund_id: int) -> out.ConfirmRefundResponse:
         """
@@ -128,7 +128,7 @@ class RefundService(SadadBase):
 
         params = inp.ConfirmRefundParams(refund_id=refund_id)
         response = self._send("/Confirm", params)
-        return out.RegisterRefundResponse.from_json(response)
+        return out.RegisterRefundResponse.from_dict(response)
 
     def cancel(self, refund_id: int) -> out.CancelRefundResponse:
         """
@@ -143,7 +143,7 @@ class RefundService(SadadBase):
         """
         params = inp.CancelRefundParams(refund_id=refund_id)
         response = self._send("/Cancel", params)
-        return out.CancelRefundResponse.from_json(response)
+        return out.CancelRefundResponse.from_dict(response)
 
     def retry(self, refund_id: int) -> out.RetryRefundResponse:
         """
@@ -158,7 +158,7 @@ class RefundService(SadadBase):
 
         params = inp.RetryRefundParams(refund_id=refund_id)
         response = self._send("/Confirm", params)
-        return out.RetryRefundResponse.from_json(response)
+        return out.RetryRefundResponse.from_dict(response)
 
     def inquiry(self, refund_id: int) -> out.InquiryRefundResponse:
         """
@@ -173,7 +173,7 @@ class RefundService(SadadBase):
 
         params = inp.InqueryRefundParams(refund_id=refund_id)
         response = self._send("/Inquery", params)
-        return out.InquiryRefundResponse.from_json(response)
+        return out.InquiryRefundResponse.from_dict(response)
 
     def detail(self, refund_id: int) -> out.RefundDetails:
         """
@@ -188,7 +188,7 @@ class RefundService(SadadBase):
 
         params = inp.DetailRefundParams(refund_id=refund_id)
         response = self._send("/detail", params)
-        return out.RefundDetails.from_json(response)
+        return out.RefundDetails.from_dict(response)
 
     def history(self, refund_id: int) -> out.HistoryRefundResponse:
         """
@@ -203,4 +203,4 @@ class RefundService(SadadBase):
 
         params = inp.HistoryRefundParams(refund_id=refund_id)
         response = self._send("/history", params)
-        return out.HistoryRefundResponse.from_json(response)
+        return out.HistoryRefundResponse.from_dict(response)

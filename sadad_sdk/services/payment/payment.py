@@ -46,7 +46,7 @@ class PaymentService(SadadBase):
         params.sign_data = self._create_sign_data(params.sign_values())
 
         response = self._send("/Request/PaymentRequest", params)
-        return out.RequestPaymentResponse.from_json(response)
+        return out.RequestPaymentResponse.from_dict(response)
 
     def verify(self, token: str) -> out.VerifyPaymentResponse:
 
@@ -54,4 +54,4 @@ class PaymentService(SadadBase):
         params.sign_data = self._create_sign_data(params.sign_values())
 
         response = self._send("/Advice/Verify", params)
-        return out.VerifyPaymentResponse.from_json(response)
+        return out.VerifyPaymentResponse.from_dict(response)
