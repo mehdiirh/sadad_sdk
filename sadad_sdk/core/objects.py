@@ -43,10 +43,7 @@ class ParamsBase(DataClassJsonMixin):
         """
 
         data = self.to_dict()
-        values = []
-        for key in self.sign_params():
-            values.append(str(data[key]))
-
+        values = [str(data[key]) for key in self.sign_params()]
         return ";".join(values)
 
 
