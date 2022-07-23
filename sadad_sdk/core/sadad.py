@@ -31,23 +31,21 @@ class SadadBase:
             rsa_key_location: RSA key file location
         """
 
-        self.__vpg_key = b64decode(vpg_key)  # private and protected variable
-        self.__merchant_id = merchant_id
-        self.__terminal_id = terminal_id
+        self._vpg_key = b64decode(vpg_key)
+        self._merchant_id = merchant_id
+        self._terminal_id = terminal_id
 
         if rsa_key_location is not None:
             with open(rsa_key_location, "r") as key:
-                self.__rsa_key = RSA.import_key(
-                    key.read()
-                )  # private and protected variable
+                self._rsa_key = RSA.import_key(key.read())
         else:
-            self.__rsa_key = None
+            self._rsa_key = None
 
         self.base_url = BASE_URL + "/" + self.uri_path
 
     def _create_sign_data(self, values: str):
 
-        cipher_encrypt = DES3.new(self.__vpg_key, DES3.MODE_ECB)
+        cipher_encrypt = DES3.new(self._vpg_key, DES3.MODE_ECB)
 
         sign_data = pad(values.encode("utf-8"), 8, style="pkcs7")
         encrypted_text = cipher_encrypt.encrypt(sign_data)
@@ -60,7 +58,7 @@ class SadadBase:
         values = values.encode("utf8")
 
         hashed_values = int.from_bytes(sha256(values).digest(), "big")
-        sign = pow(hashed_values, self.__rsa_key.d, self.__rsa_key.n)
+        sign = pow(hashed_values, self._rsa_key.d, self._rsa_key.n)
         sign = hex(sign).encode("utf8")
         sign = b64encode(sign)
         return sign
@@ -71,15 +69,19 @@ class SadadBase:
         headers["Sign"] = self._create_sign(values)
         return headers
 
-    def _send(self, uri: str = "", params: ParamsBase = None):
+    def _send(
+        self, uri: str = "", params: ParamsBase = None, pass_headers: bool = True
+    ):
         url = self.base_url + uri
 
         data = None
         if params is not None:
             data = params.to_json()
 
-        sign_data = params.sign_values()
-        headers = self._get_headers(sign_data)
+        headers = None
+        if pass_headers:
+            sign_data = params.sign_values()
+            headers = self._get_headers(sign_data)
 
         response = None
         last_response_code = None

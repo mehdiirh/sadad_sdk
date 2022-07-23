@@ -36,7 +36,7 @@ class RefundService(SadadBase):
         params = inp.RegisterRefundParams(
             retrieval_ref_no=retrieval_ref_no,
             amount=amount,
-            terminal_id=self.__terminal_id,
+            terminal_id=self._terminal_id,
             system_trace_no=system_trace_no,
             refund_amount=refund_amount,
             token=token,
@@ -79,7 +79,7 @@ class RefundService(SadadBase):
 
         """
         params = inp.ListRefundParams(
-            terminal_id=self.__terminal_id,
+            terminal_id=self._terminal_id,
             from_date=from_date,
             to_date=to_date,
             page=page,
