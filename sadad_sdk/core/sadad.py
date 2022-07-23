@@ -14,11 +14,36 @@ class SadadBase:
 
     uri_path = ""
 
-    def __init__(self, VPG_KEY: str, RSA_KEY_LOCATION: str):
-        self.__vpg_key = b64decode(VPG_KEY)  # private and protected variable
+    def __init__(
+        self,
+        vpg_key: str,
+        merchant_id: str = None,
+        terminal_id: int = None,
+        rsa_key_location: str = None,
+    ):
+        """
+        All Sadad services must inherit from this class. it creates an instance to use Sadad services
+
+        Args:
+            vpg_key: Terminal VPG key
+            merchant_id: Merchant ID
+            terminal_id: Terminal ID
+            rsa_key_location: RSA key file location
+        """
+
+        self.__vpg_key = b64decode(vpg_key)  # private and protected variable
+        self.__merchant_id = merchant_id
+        self.__terminal_id = terminal_id
+
+        if rsa_key_location is not None:
+            with open(rsa_key_location, "r") as key:
+                self.__rsa_key = RSA.import_key(
+                    key.read()
+                )  # private and protected variable
+        else:
+            self.__rsa_key = None
+
         self.base_url = BASE_URL + "/" + self.uri_path
-        with open(RSA_KEY_LOCATION, "r") as key:
-            self.__rsa_key = RSA.import_key(key.read())  # private and protected variable
 
     def _create_sign_data(self, values: str):
 
