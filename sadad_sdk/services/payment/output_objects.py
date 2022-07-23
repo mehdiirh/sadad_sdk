@@ -4,6 +4,7 @@ from sadad_sdk.utils.decorators import recover_methods
 from dataclasses_json import dataclass_json, LetterCase, Undefined
 
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -18,7 +19,7 @@ class BasePaymentResponse(ResponseBase):
 @dataclass
 class RequestPaymentResponse(BasePaymentResponse):
 
-    token: str
+    token: Optional[str] = None
 
 
 @recover_methods

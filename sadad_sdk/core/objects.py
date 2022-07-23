@@ -2,6 +2,7 @@ from sadad_sdk.utils.config import RESPONSE_DATETIME_FORMAT, REQUEST_DATE_FORMAT
 
 from dataclasses_json import DataClassJsonMixin
 from dataclasses_json.api import Json, A
+from dataclasses_json.utils import _is_optional, _hasargs
 
 import dataclasses
 from typing import Type
@@ -55,7 +56,14 @@ class ResponseBase(DataClassJsonMixin):
         letter_case = cls.dataclass_json_config.get('letter_case')  # get LetterCase if it exists
 
         for field in dataclasses.fields(cls):
-            if issubclass(field.type, datetime):
+            is_datetime = False
+            if _is_optional(field.type):
+                if _hasargs(field.type, datetime):
+                    is_datetime = True
+            elif issubclass(field.type, datetime):
+                is_datetime = True
+
+            if is_datetime:
                 field_name = letter_case(field.name) if callable(letter_case) else field.name
                 value = kvs.get(field_name)
                 if value and (not isinstance(value, datetime)):
