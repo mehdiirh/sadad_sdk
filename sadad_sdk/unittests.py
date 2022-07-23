@@ -10,7 +10,7 @@ from sadad_sdk.utils.config import REQUEST_DATE_FORMAT, RESPONSE_DATETIME_FORMAT
 from sadad_sdk.services.refund.output_objects import BaseRefundResponse
 
 
-class TestBaseRefundResponseObject(TestCase):
+class TestResponseBaseObject(TestCase):
 
     def test_base_refund_response_status_and_response_message_attrs(self):
 
@@ -32,14 +32,16 @@ class TestBaseRefundResponseObject(TestCase):
             sorted({"status": 200, "response_message": "message"}),
         )
 
-        self.assertTrue(hasattr(instance, "_from_dict"))
+    def test_recover_methods_decorator_on_from_dict_method(self):
+
+        self.assertTrue(hasattr(ResponseBase, "_from_dict"))
 
         # these should not be equal before recovering methods
-        self.assertNotEqual(BaseRefundResponse._from_dict, BaseRefundResponse.from_dict)
+        self.assertNotEqual(ResponseBase._from_dict, ResponseBase.from_dict)
 
         # test recover methods decorator
-        recover_methods(BaseRefundResponse)
-        self.assertEqual(BaseRefundResponse._from_dict, BaseRefundResponse.from_dict)
+        recover_methods(ResponseBase)
+        self.assertEqual(ResponseBase._from_dict, ResponseBase.from_dict)
 
     def test_base_refund_response_datetime_convertor(self):
         @recover_methods
@@ -115,7 +117,8 @@ class TestParamsBaseObject(TestCase):
             sorted({"FromDate": self.str_time, "TerminalId": "terminal_id"}),
         )
 
-        self.assertTrue(hasattr(instance, "_to_dict"))
+    def test_recover_methods_decorator_on_to_dict_method(self):
+        self.assertTrue(hasattr(ParamsBase, "_to_dict"))
 
         # these should not be equal before recovering methods
         self.assertNotEqual(ParamsBase._to_dict, ParamsBase.to_dict)
