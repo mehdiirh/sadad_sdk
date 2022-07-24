@@ -28,7 +28,7 @@ class RequestPaymentResponse(BasePaymentResponse):
 class VerifyPaymentResponse(BasePaymentResponse):
 
     amount: int
-    retrival_ref_no: str
-    system_trace_no: str
-    order_id: int
+    retrival_ref_no: Optional[str]
+    system_trace_no: Optional[str]
+    order_id: Optional[int]
 
