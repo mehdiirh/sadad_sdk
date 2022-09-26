@@ -21,6 +21,10 @@ class RequestPaymentResponse(BasePaymentResponse):
 
     token: Optional[str] = None
 
+    @property
+    def payment_url(self):
+        return f"https://sadad.shaparak.ir/Purchase?token={self.token}"
+
 
 @recover_methods
 @dataclass_json(letter_case=LetterCase.PASCAL, undefined=Undefined.EXCLUDE)
