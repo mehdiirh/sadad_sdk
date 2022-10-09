@@ -1,13 +1,15 @@
-from unittest import TestCase
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
+from unittest import TestCase
+
 from dataclasses_json import dataclass_json, LetterCase
 
 from sadad_sdk.core.objects import ParamsBase, ResponseBase
-from sadad_sdk.utils.decorators import recover_methods
-from sadad_sdk.utils.config import REQUEST_DATE_FORMAT, RESPONSE_DATETIME_FORMAT
-
 from sadad_sdk.services.refund.output_objects import BaseRefundResponse
+from sadad_sdk.utils.config import REQUEST_DATE_FORMAT, RESPONSE_DATETIME_FORMAT
+from sadad_sdk.utils.decorators import recover_methods
+from utils import create_payment_url_from_token
+from utils.config import PAYMENT_URL
 
 
 class TestResponseBaseObject(TestCase):
@@ -124,3 +126,14 @@ class TestParamsBaseObject(TestCase):
         self.assertNotEqual(ParamsBase._to_dict, ParamsBase.to_dict)
 
         self.assertEqual(self.converted_class._to_dict, self.converted_class.to_dict)
+
+
+class TestUtilsAndTools(TestCase):
+
+    def test_create_payment_url_from_token(self):
+        token = "TOKEN"
+
+        self.assertEqual(
+            create_payment_url_from_token(token),
+            PAYMENT_URL.format(token)
+        )

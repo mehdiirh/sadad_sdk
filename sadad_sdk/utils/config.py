@@ -1,4 +1,5 @@
 BASE_URL = "https://sadad.shaparak.ir/api"
+PAYMENT_URL = "https://sadad.shaparak.ir/Purchase?token={}"
 
 REQUEST_HEADERS = {
     "Content-Type": "application/json",

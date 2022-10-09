@@ -1,10 +1,11 @@
-from sadad_sdk.core.objects import ResponseBase
-from sadad_sdk.utils.decorators import recover_methods
+from dataclasses import dataclass
+from typing import Optional
 
 from dataclasses_json import dataclass_json, LetterCase, Undefined
 
-from dataclasses import dataclass
-from typing import Optional
+from sadad_sdk.core.objects import ResponseBase
+from sadad_sdk.utils import create_payment_url_from_token
+from sadad_sdk.utils.decorators import recover_methods
 
 
 @dataclass
@@ -23,7 +24,7 @@ class RequestPaymentResponse(BasePaymentResponse):
 
     @property
     def payment_url(self):
-        return f"https://sadad.shaparak.ir/Purchase?token={self.token}"
+        return create_payment_url_from_token(self.token)
 
 
 @recover_methods
