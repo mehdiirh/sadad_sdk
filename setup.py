@@ -1,8 +1,8 @@
-import setuptools
 import ast
 import re
 from pathlib import Path
 
+import setuptools
 
 CURRENT_DIR = Path(__file__).parent
 
@@ -30,7 +30,7 @@ setuptools.setup(
     description="Python SDK for the Sadad API (v1)",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
-    keywords=['sadad', 'shaparak'],
+    keywords=["sadad", "shaparak"],
     # url="https://github.com/mehdiirh/sadad_sdk",
     license="MIT",
     packages=setuptools.find_packages(),
@@ -40,5 +40,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
-    zip_safe=False
+    zip_safe=False,
 )

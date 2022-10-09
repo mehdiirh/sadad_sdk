@@ -13,7 +13,6 @@ from utils.config import PAYMENT_URL
 
 
 class TestResponseBaseObject(TestCase):
-
     def test_base_refund_response_status_and_response_message_attrs(self):
 
         # test BaseRefundResponse requires "status" and "response_message" by default
@@ -72,21 +71,18 @@ class TestResponseBaseObject(TestCase):
 
 
 class TestParamsBaseObject(TestCase):
-
     @classmethod
     def setUp(cls) -> None:
-
         @recover_methods
         @dataclass_json(letter_case=LetterCase.PASCAL)
         @dataclass
         class ParamsBaseConverted(ParamsBase):
-
             @staticmethod
             def sign_params():
                 return ["FromDate", "terminalId"]
 
             from_date: datetime
-            terminal_id: str = 'terminal_id'
+            terminal_id: str = "terminal_id"
 
         time = datetime.now()
 
@@ -109,10 +105,7 @@ class TestParamsBaseObject(TestCase):
         # test if params object is valid if args is passed properly
         self.assertIsInstance(instance, ParamsBase)
 
-        self.assertEqual(
-            instance.from_date,
-            self.time
-        )
+        self.assertEqual(instance.from_date, self.time)
 
         self.assertEqual(
             sorted(instance.to_dict()),
@@ -129,11 +122,9 @@ class TestParamsBaseObject(TestCase):
 
 
 class TestUtilsAndTools(TestCase):
-
     def test_create_payment_url_from_token(self):
         token = "TOKEN"
 
         self.assertEqual(
-            create_payment_url_from_token(token),
-            PAYMENT_URL.format(token)
+            create_payment_url_from_token(token), PAYMENT_URL.format(token)
         )
