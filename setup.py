@@ -31,7 +31,7 @@ setuptools.setup(
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     keywords=["sadad", "shaparak"],
-    # url="https://github.com/mehdiirh/sadad_sdk",
+    url="https://github.com/mehdiirh/sadad_sdk",
     license="MIT",
     packages=setuptools.find_packages(),
     install_requires=["requests", "dataclasses-json", "pycrypto", "pycryptodome"],
