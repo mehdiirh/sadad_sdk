@@ -20,6 +20,7 @@ class SadadBase:
         merchant_id: str = None,
         terminal_id: int = None,
         rsa_key_location: str = None,
+        proxies: dict = None,
     ):
         """
         All Sadad services must inherit from this class. it creates an instance to use Sadad services
@@ -29,11 +30,13 @@ class SadadBase:
             merchant_id: Merchant ID
             terminal_id: Terminal ID
             rsa_key_location: RSA key file location
+            proxies: HTTP/SOCKS proxy to send requests with
         """
 
         self._vpg_key = b64decode(vpg_key)
         self._merchant_id = merchant_id
         self._terminal_id = terminal_id
+        self.proxies = proxies
 
         if rsa_key_location is not None:
             with open(rsa_key_location, "r") as key:
@@ -90,7 +93,9 @@ class SadadBase:
         for _ in range(3):
 
             try:
-                response = requests.post(url, headers=headers, data=data, timeout=5)
+                response = requests.post(
+                    url, headers=headers, data=data, proxies=self.proxies, timeout=5
+                )
                 last_response_code = response.status_code
             except:
                 continue
