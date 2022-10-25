@@ -8,11 +8,24 @@ class Sadad:
         merchant_id: str = None,
         terminal_id: int = None,
         rsa_key_location: str = None,
+        proxies: dict = None,
     ):
+        """
+        Create a sadad client. it creates an instance to use Sadad services
+
+        Args:
+            vpg_key: Terminal VPG key
+            merchant_id: Merchant ID
+            terminal_id: Terminal ID
+            rsa_key_location: RSA key file location
+            proxies: HTTP/SOCKS proxy to send requests with
+        """
+
         self.__vpg_key = vpg_key
         self.__merchant_id = merchant_id
         self.__terminal_id = terminal_id
         self.__rsa_key_location = rsa_key_location
+        self.__proxies = proxies
 
     @property
     def refund(self) -> RefundService:
@@ -23,7 +36,11 @@ class Sadad:
                 "merchant_id and terminal_id are required for refund service"
             )
 
-        return RefundService(self.__vpg_key, self.__rsa_key_location)
+        return RefundService(
+            vpg_key=self.__vpg_key,
+            rsa_key_location=self.__rsa_key_location,
+            proxies=self.__proxies,
+        )
 
     @property
     def payment(self) -> PaymentService:
@@ -32,4 +49,9 @@ class Sadad:
                 "merchant_id and terminal_id are required for payment service"
             )
 
-        return PaymentService(self.__vpg_key, self.__merchant_id, self.__terminal_id)
+        return PaymentService(
+            vpg_key=self.__vpg_key,
+            merchant_id=self.__merchant_id,
+            terminal_id=self.__terminal_id,
+            proxies=self.__proxies,
+        )
